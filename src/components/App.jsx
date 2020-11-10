@@ -27,6 +27,7 @@ class App extends React.Component {
 
   onVideoSelect = (video) => {
     this.setState({selectedVideo: video});
+    document.documentElement.scrollTop = 0;
   }
 
   render() {
