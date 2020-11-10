@@ -27,6 +27,7 @@ class App extends React.Component {
 
   onVideoSelect = (video) => {
     this.setState({selectedVideo: video});
+    document.body.scrollTop= 0;
     document.documentElement.scrollTop = 0;
   }
 
@@ -35,7 +36,7 @@ class App extends React.Component {
       <Fragment>
         <Navbar />
         <div className="ui container" >
-        <SearchBar onTermSubmitted={this.onTermSubmitted} />
+        <SearchBar onTermSubmitted={this.onTermSubmitted} vidLenght={this.state.videos.length} />
           <div className="ui stackable grid" >
             <div className="ui row" >
               <div className="nine wide column" >
