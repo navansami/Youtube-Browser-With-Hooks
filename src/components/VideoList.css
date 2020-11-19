@@ -1,8 +1,9 @@
 .renderedlist {
-  background-color: burlywood;
+  background-color: #fff;
   padding: 0.2rem;
 }
 
 img {
   margin: 0.5rem;
+  border-radius: 10px;
 }

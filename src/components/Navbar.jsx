@@ -7,7 +7,7 @@ const Navbar = () => {
       className="ui secondary pointing menu"
     >
       <div className="item">
-        <h1 style={{ color: 'white' }}  >Sam's Tube</h1>
+        <h1 style={{ color: 'white' }}  >Navan's YouTube Browser</h1>
       </div>
     </div>
   );

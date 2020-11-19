@@ -1,61 +1,46 @@
-import React, { Fragment } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import Navbar from './Navbar';
 import SearchBar from './SearchBar';
-import youtube from '../apis/youtube';
 import VideosList from './VideosList';
 import VideoDetail from './VideoDetail';
+import useVideos from '../hooks/useVideos';
 
-class App extends React.Component {
-  state = { videos : [], selectedVideo: null }
+export default () => {
+  const [ selectedVideo, setSelectedVideo ] = useState(null);
+  const [ videos, search ] = useVideos('become a software architect');
 
-  componentDidMount() {
-    this.onTermSubmitted('15 ways to make 1 million dollars')
-  }
+  useEffect(() => {
+    setSelectedVideo(videos[0]);    
+  },[videos]);
 
-  onTermSubmitted = async (term) => {
-    const response = await youtube.get('/search', {
-      params: {
-        q: term
-      }
-    });
-
-    this.setState({ 
-      videos: response.data.items,
-      selectedVideo: response.data.items[0]
-    });
-  }
-
-  onVideoSelect = (video) => {
-    this.setState({selectedVideo: video});
-    document.body.scrollTop= 0;
+  const onVideoSelect = (video) => {
+    setSelectedVideo(video);
+    document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
   }
 
-  render() {
-    return(
-      <Fragment>
-        <Navbar />
-        <div className="ui container" >
-        <SearchBar onTermSubmitted={this.onTermSubmitted} vidLenght={this.state.videos.length} />
-          <div className="ui stackable grid" >
-            <div className="ui row" >
-              <div className="nine wide column" >
-                <VideoDetail 
-                  video={this.state.selectedVideo} 
-                />
-              </div>
-              <div className="seven wide column" >
-                <VideosList 
-                  onVideoSelect={this.onVideoSelect}
-                  videos={this.state.videos}
-                />
-              </div>
+
+  return(
+    <Fragment>
+      <Navbar />
+      <div className="ui container" >
+      <SearchBar onTermSubmitted={search} vidLenght={videos.length} />
+        <div className="ui stackable grid" >
+          <div className="ui row" >
+            <div className="nine wide column" >
+              <VideoDetail 
+                video={selectedVideo} 
+              />
+            </div>
+            <div className="seven wide column" >
+              <VideosList 
+                onVideoSelect={onVideoSelect}
+                videos={videos}
+              />
             </div>
           </div>
         </div>
-      </Fragment>
-    );
-  };
+      </div>
+    </Fragment>
+  );
 }
-
-export default App;
